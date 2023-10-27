@@ -1,1 +1,1 @@
-# l2-beer-mobile
+# l2-chain
