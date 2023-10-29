@@ -1,17 +1,12 @@
-import React, {Suspense, useEffect} from 'react';
-import {Appearance, Settings, StatusBar, StyleSheet} from 'react-native';
-import {Text, adaptNavigationTheme, useTheme} from 'react-native-paper';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {adaptNavigationTheme, useTheme} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import WelcomeScreen from '../../screens/WelcomeScreen';
-import {StackHeaderProps, StackNavigationOptions, createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import linking from './linking';
 import {navigationRef} from '../../services/navigationServices';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import NavigationBackButton from './NavigationBackButton';
-import L2Button from '../layout/L2Button';
-import L2IconButton from '../layout/L2IconButton';
 import {DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme} from '@react-navigation/native';
-import {MD3LightTheme, MD3DarkTheme} from 'react-native-paper';
 
 const {LightTheme, DarkTheme} = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
