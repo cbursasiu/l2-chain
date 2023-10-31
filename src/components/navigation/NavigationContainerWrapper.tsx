@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {adaptNavigationTheme, useTheme} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
@@ -7,6 +7,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import linking from './linking';
 import {navigationRef} from '../../services/navigationServices';
 import {DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme} from '@react-navigation/native';
+import {Routes} from '../../routes/routes';
+import DashboardScreen from '../../screens/DashboardScreen';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {initApi, setAuthorizationHeader} from '../../api/api';
+import {getTokensFromLocalStorage} from '../../stores/localStorage';
+import {useStore} from '../../stores/store';
+import {queryVariants} from '../../api/queryConfig';
 
 const {LightTheme, DarkTheme} = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -17,69 +24,35 @@ export type AppNavigatorParamsList = {
   WelcomeScreen: undefined;
 };
 
-export const Routes: {[key in keyof AppNavigatorParamsList]: key} = {
-  WelcomeScreen: 'WelcomeScreen',
-};
-
 const Stack = createStackNavigator();
 
 const NavigationContainerWrapper: React.FC = () => {
   const theme = useTheme();
-  // const screenOptions: StackNavigationOptions = {
-  //   headerBackTitleVisible: false,
-  //   headerShadowVisible: false,
-  //   headerTintColor: 'red',
-  //   headerShown: true,
-  //   headerTitleAlign: 'center',
-  //   headerTitleContainerStyle: {
-  //     maxWidth: '80%',
-  //   },
-  //   headerLeft: () => <NavigationBackButton />,
-  //   headerStyle: {
-  //     backgroundColor: theme.colors.background,
-  //   },
-  //   headerTitleStyle: {
-  //     color: theme.colors.onPrimary,
-  //     fontWeight: 'bold',
-  //     textAlignVertical: 'center',
-  //     fontSize: theme.fonts.titleSmall.fontSize,
-  //   },
-  // };
+  const isLoggedIn = useStore(state => state.isLoggedIn);
+  const state = useStore();
 
-  // const renderMainHeader = () => (props: StackHeaderProps) => (
-  //   <SafeAreaView
-  //     style={[
-  //       styles.headerContainer,
-  //       {
-  //         backgroundColor: theme.colors.background,
-  //       },
-  //     ]}>
-  //     <Text style={styles.headerText}>{props.options.title}</Text>
-  //     <L2IconButton
-  //       // onPress={() => props.navigation.navigate(Routes.Settings)}
-  //       style={styles.settingsIcon}
-  //       icon="cog"
-  //     />
-  //     <L2IconButton
-  //       style={styles.profileIcon}
-  //       // onPress={() => props.navigation.navigate(Routes.Profile)}
-  //       icon="account"
-  //     />
-  //   </SafeAreaView>
-  // );
+  useEffect(() => {
+    initApi(state);
+  }, []);
 
   return (
     <NavigationContainer linking={linking} ref={navigationRef} theme={theme.dark ? DarkTheme : LightTheme}>
-      {/* <StatusBar backgroundColor={theme.colors.background} barStyle={theme.dark ? 'light-content' : 'dark-content'} /> */}
-      <Stack.Navigator
-        initialRouteName={Routes.WelcomeScreen}
-        // screenOptions={{
-        //   ...screenOptions,
-        //   header: renderMainHeader(),
-        // }}
-      >
-        <Stack.Screen name={Routes.WelcomeScreen} component={WelcomeScreen} />
-      </Stack.Navigator>
+      {isLoggedIn ? (
+        <Stack.Navigator initialRouteName={Routes.DashboardScreen}>
+          <Stack.Screen name={Routes.DashboardScreen} component={DashboardScreen} />
+        </Stack.Navigator>
+      ) : (
+        <Stack.Navigator initialRouteName={Routes.WelcomeScreen}>
+          <Stack.Screen
+            name={Routes.WelcomeScreen}
+            component={WelcomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name={Routes.DashboardScreen} component={DashboardScreen} />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 };

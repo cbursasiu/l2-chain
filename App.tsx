@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, useColorScheme} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {KeyboardProvider} from 'react-native-keyboard-controller';
 import NavigationContainerWrapper from './src/components/navigation/NavigationContainerWrapper';
 import {MD3DarkTheme, MD3LightTheme, PaperProvider} from 'react-native-paper';
 import {useMaterial3Theme} from '@pchmn/expo-material3-theme';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {initApi} from './src/api/api';
+import {useStore} from 'zustand';
+
+const queryClient = new QueryClient();
 
 function App(): JSX.Element {
   const colorScheme = useColorScheme();
@@ -19,7 +24,9 @@ function App(): JSX.Element {
     <PaperProvider theme={paperTheme}>
       <GestureHandlerRootView style={styles.mainContainer}>
         <KeyboardProvider>
-          <NavigationContainerWrapper />
+          <QueryClientProvider client={queryClient}>
+            <NavigationContainerWrapper />
+          </QueryClientProvider>
         </KeyboardProvider>
       </GestureHandlerRootView>
     </PaperProvider>
