@@ -1,4 +1,6 @@
-import {Routes} from './routes';
+import {Routes} from './src/routes/routes';
+import {z} from 'zod';
+import {liquidsSchema} from './src/api/schemas';
 
 export type RouteParams = {
   [Routes.SettingsScreen]: undefined;
@@ -6,3 +8,5 @@ export type RouteParams = {
   [Routes.DashboardScreen]: undefined;
   [Routes.WelcomeScreen]: undefined;
 };
+
+export type liquidsList = z.infer<typeof liquidsSchema>;

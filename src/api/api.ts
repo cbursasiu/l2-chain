@@ -6,14 +6,17 @@ const ENABLE_LOGGING = true;
 const LOG_REQUESTS = __DEV__ ? ENABLE_LOGGING : false;
 
 export const API_URL = 'https://bfit.l2-apis.eu';
+// export const API_URL = 'http://localhost:3000';
 
 const refreshTokens = async (store: any, originalRequest?: InternalAxiosRequestConfig<any>) => {
   const tokens = await getTokensFromLocalStorage();
+  console.log('Refreshing tokens: ', JSON.stringify(tokens));
   if (tokens?.refreshToken && originalRequest?.url !== '/auth/refresh') {
     setAuthorizationHeader(tokens.refreshToken);
     try {
       const response = await axios.get('/auth/refresh');
       const {accessToken, refreshToken} = response.data;
+      console.log('Tokens refreshed - saving to local storage');
       saveTokensToLocalStorage({accessToken, refreshToken});
       setAuthorizationHeader(accessToken);
       store.setLoggedIn(true);

@@ -1,15 +1,9 @@
 import React from 'react';
-import L2Button from '../L2Button';
 import {goBack} from '../../services/navigationServices';
-import {Text} from 'react-native-paper';
-import L2Text from '../L2Text';
+import L2IconButton from '../L2IconButton';
 
 const GoBackNavigationHeaderButton = () => {
-  return (
-    <L2Button variant="primary" icon="arrow-left" onPress={goBack}>
-      <L2Text>&ldquo;&rdquo;</L2Text>
-    </L2Button>
-  );
+  return <L2IconButton icon="arrow-left" onPress={goBack} />;
 };
 
 export default GoBackNavigationHeaderButton;

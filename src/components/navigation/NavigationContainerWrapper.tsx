@@ -1,19 +1,17 @@
 import React, {useEffect} from 'react';
-import {StyleSheet} from 'react-native';
 import {adaptNavigationTheme, useTheme} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import WelcomeScreen from '../../screens/WelcomeScreen';
-import {createStackNavigator} from '@react-navigation/stack';
+import {StackNavigationOptions, createStackNavigator} from '@react-navigation/stack';
 import linking from './linking';
 import {navigationRef} from '../../services/navigationServices';
 import {DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme} from '@react-navigation/native';
 import {Routes} from '../../routes/routes';
 import DashboardScreen from '../../screens/DashboardScreen';
-import {useQuery, useQueryClient} from '@tanstack/react-query';
-import {initApi, setAuthorizationHeader} from '../../api/api';
-import {getTokensFromLocalStorage} from '../../stores/localStorage';
+import {initApi} from '../../api/api';
 import {useStore} from '../../stores/store';
-import {queryVariants} from '../../api/queryConfig';
+import NavigationBackButton from './NavigationBackButton';
+import L2ProfileHeaderMenu from '../L2ProfileHeaderMenu';
 
 const {LightTheme, DarkTheme} = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -33,16 +31,54 @@ const NavigationContainerWrapper: React.FC = () => {
 
   useEffect(() => {
     initApi(state);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const screenOptions: StackNavigationOptions = {
+    headerBackTitleVisible: false,
+    headerShadowVisible: false,
+    headerTintColor: 'red',
+    headerShown: true,
+    headerTitleAlign: 'center',
+    headerTitleContainerStyle: {
+      maxWidth: '80%',
+    },
+    headerLeft: () => <NavigationBackButton />,
+    headerStyle: {
+      backgroundColor: theme.colors.background,
+    },
+    headerTitleStyle: {
+      color: theme.colors.primary,
+      fontWeight: 'bold',
+      textAlignVertical: 'center',
+      fontSize: theme.fonts.headlineMedium.fontSize,
+    },
+  };
 
   return (
     <NavigationContainer linking={linking} ref={navigationRef} theme={theme.dark ? DarkTheme : LightTheme}>
       {isLoggedIn ? (
-        <Stack.Navigator initialRouteName={Routes.DashboardScreen}>
-          <Stack.Screen name={Routes.DashboardScreen} component={DashboardScreen} />
+        <Stack.Navigator
+          initialRouteName={Routes.DashboardScreen}
+          screenOptions={{
+            ...screenOptions,
+          }}>
+          <Stack.Screen
+            name={Routes.DashboardScreen}
+            component={DashboardScreen}
+            options={{
+              title: 'Streak Guardian',
+              headerLeft: () => <></>,
+              headerRight: () => <L2ProfileHeaderMenu />,
+            }}
+          />
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator initialRouteName={Routes.WelcomeScreen}>
+        <Stack.Navigator
+          initialRouteName={Routes.WelcomeScreen}
+          screenOptions={{
+            ...screenOptions,
+          }}>
           <Stack.Screen
             name={Routes.WelcomeScreen}
             component={WelcomeScreen}
@@ -50,39 +86,17 @@ const NavigationContainerWrapper: React.FC = () => {
               headerShown: false,
             }}
           />
-          <Stack.Screen name={Routes.DashboardScreen} component={DashboardScreen} />
+          <Stack.Screen
+            name={Routes.DashboardScreen}
+            component={DashboardScreen}
+            options={{
+              title: 'Streak Guardian',
+            }}
+          />
         </Stack.Navigator>
       )}
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    marginBottom: 0,
-    paddingBottom: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  headerText: {
-    textAlign: 'center',
-    position: 'absolute',
-    justifyContent: 'center',
-    bottom: 0,
-    width: '100%',
-  },
-  profileIcon: {
-    position: 'absolute',
-    bottom: 0,
-  },
-  settingsIcon: {
-    position: 'absolute',
-    bottom: 0,
-    padding: 0,
-    margin: 0,
-  },
-});
 
 export default NavigationContainerWrapper;
