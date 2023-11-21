@@ -46,7 +46,7 @@
     "@react-native/metro-config": "^0.74.0",
     "@tanstack/eslint-plugin-query": "^5.0.5",
     "@tsconfig/react-native": "^3.0.0",
-    "@types/react": "^18.0.24",
+    "@types/react": "^18.2.38",
     "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
