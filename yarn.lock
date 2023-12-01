@@ -2400,10 +2400,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@tanstack/eslint-plugin-query@^5.0.5":
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/eslint-plugin-query/-/eslint-plugin-query-5.0.5.tgz#3f1fc0ad472462c3ca0a8a99601206049dfa7211"
-  integrity sha512-kYbh5Cboz1BzN6LeUWnI1B0BCikXMYQjxaEO7cV+0rycllU0qZqSEkd2LdgWIZhuLTc4WBt0li1s+O6RhM5Cog==
+"@tanstack/eslint-plugin-query@^5.12.1":
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/eslint-plugin-query/-/eslint-plugin-query-5.12.1.tgz#4fd1804d32b4378471ad60eec1669745c41d0927"
+  integrity sha512-FuG/mN9cUO8KlT7KJzl8Yiw55uyXz1vzxXfoMnBbgiH8vk5WtUbEMdFeDF4ujgO+VSKR10uDdZ1+TIOpHhDUfQ==
   dependencies:
     "@typescript-eslint/utils" "^5.54.0"
 
