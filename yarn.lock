@@ -8010,10 +8010,10 @@ react-native-gesture-handler@^2.13.4:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-keyboard-controller@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/react-native-keyboard-controller/-/react-native-keyboard-controller-1.8.0.tgz#c15ed2f5ee8d616b4fea99752614d315574eddc5"
-  integrity sha512-VtJSQQYkKga4vI8Z8AcmCYeGwoaPLG68DzS5pH3IgTX//iZOLjbLQDiyV1hjndvupBOCoGPoGhMPph5Kq+0rxw==
+react-native-keyboard-controller@^1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-controller/-/react-native-keyboard-controller-1.9.5.tgz#dbf1a0fec79fa147785edddfc9c41dddf9def3da"
+  integrity sha512-1Dt21tJTdlT51XXF2bhw2peBBfPHIy4+nSvQGUxt4Tcx6yo6IN0hTk80wZT92u4YOwiyHPYb3Bl4/Ulfw3wdTQ==
 
 react-native-paper@^5.11.1:
   version "5.11.1"
